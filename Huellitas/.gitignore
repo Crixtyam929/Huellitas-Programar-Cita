@@ -1,0 +1,57 @@
+﻿# Build results
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code
+.vscode/
+
+# Visual Studio
+.vs/
+
+# DotCover
+.idea/
+*.dotCover
+
+# Rider
+.idea/
+
+# Auto-generated files
+Generated_Code/
+
+# NuGet packages
+*.nupkg
+packages/
+*.snupkg
+
+# Logs
+*.log
+
+# Others
+*.dbmdl
+*.dbproj.schemaview
+*.pdb
+*.cache
+
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.old
+
+# File indexing (like your error)
+*.vsidx
+
+# OS-specific
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+*.lnk

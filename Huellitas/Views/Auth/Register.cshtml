@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Huellitas</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Estilos Personalizados Embebidos -->
+    <style>
+        /* Define los colores */
+        :root {
+            --color-verde-principal: #5cb85c; /* Verde principal */
+            --color-verde-oscuro: #4cae4c; /* Verde para hover/activo */
+            --color-beige-fondo: #f5f5dc; /* Beige para el fondo del cuerpo */
+            --color-blanco: #ffffff;
+            --color-texto-principal: #333;
+            --color-verde-suave: #e8f5e9; /* Verde muy pálido para acentos */
+            --color-texto-nav: var(--color-blanco); /* Texto blanco para la nav */
+            --color-texto-oscuro: #343a40;
+            --color-footer-bg: var(--color-blanco);
+            --color-footer-border: #dee2e6;
+        }
+
+        /* Estilo general del cuerpo */
+        body {
+            background-color: var(--color-beige-fondo);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Estilos de la Barra de Navegación */
+        .navbar-custom {
+            background-color: var(--color-verde-principal);
+            padding-top: 0.8rem;
+            padding-bottom: 0.8rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+
+            .navbar-custom .navbar-brand {
+                color: var(--color-texto-nav);
+                font-weight: bold;
+                font-size: 1.4rem;
+            }
+
+                .navbar-custom .navbar-brand:hover {
+                    color: rgba(255, 255, 255, 0.85);
+                }
+
+            .navbar-custom .nav-link {
+                color: var(--color-texto-nav);
+            }
+
+                .navbar-custom .nav-link:hover {
+                    color: rgba(255, 255, 255, 0.85);
+                }
+
+
+        /* Contenedor principal */
+        .register-main-container {
+            flex-grow: 1; /* Ocupa espacio disponible */
+            display: flex; /* Centra el contenido */
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem; /* Padding arriba/abajo y a los lados */
+        }
+
+        /* Tarjeta de Registro */
+        .register-card {
+            background-color: var(--color-blanco);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 550px; /* Un poco más ancha para más campos */
+            width: 100%;
+            overflow: hidden;
+        }
+
+            .register-card .card-header {
+                background-color: var(--color-verde-suave);
+                border-bottom: 1px solid #dee2e6;
+                padding: 1.5rem; /* Ajuste de padding */
+                text-align: center;
+            }
+
+                .register-card .card-header h2 {
+                    color: var(--color-verde-principal);
+                    font-weight: 600;
+                    margin-bottom: 0.25rem;
+                }
+
+            .register-card .card-body {
+                padding: 2rem;
+            }
+
+        /* Estilos de formulario */
+        .form-label {
+            font-weight: 500;
+            color: var(--color-texto-principal);
+            margin-bottom: 0.3rem; /* Menos espacio bajo la etiqueta */
+        }
+
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 0.5rem 0.75rem; /* Ajuste de padding */
+            font-size: 0.95rem;
+        }
+
+            .form-control:focus {
+                border-color: var(--color-verde-principal);
+                box-shadow: 0 0 0 0.25rem rgba(92, 184, 92, 0.25);
+            }
+
+        /* Botón */
+        .btn-register {
+            background-color: var(--color-verde-principal);
+            border-color: var(--color-verde-principal);
+            color: var(--color-blanco);
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 5px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+            .btn-register:hover {
+                background-color: var(--color-verde-oscuro);
+                border-color: var(--color-verde-oscuro);
+                color: var(--color-blanco);
+            }
+
+        /* Estilo simple para mensajes de error (para JS) */
+        .error-message {
+            color: #dc3545; /* Color rojo de Bootstrap para peligro */
+            font-size: 0.875em;
+            display: none; /* Oculto por defecto */
+        }
+        /* Placeholder para errores generales del formulario */
+        #form-error-summary {
+            display: none; /* Oculto por defecto */
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- Barra de Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <!-- Cambia href="#" a la URL de tu página principal -->
+            <a class="navbar-brand" href="#">
+                🐾 Huellitas
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavHuellitas" aria-controls="navbarNavHuellitas" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavHuellitas">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <!-- Cambia href="#" a la URL de tu página de login -->
+                        <a class="nav-link" href="/login">Iniciar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenedor Principal para el Registro -->
+    <main class="register-main-container">
+        <div class="register-card">
+            <div class="card-header">
+                <h2>Crear Nueva Cuenta</h2>
+                <p class="text-muted mb-0">Únete a Huellitas</p>
+            </div>
+            <div class="card-body">
+
+                <!-- El atributo 'action' debe apuntar a la URL del servidor que procesará el registro -->
+                <!-- El atributo 'method' debe ser 'post' -->
+                <form action="/register" method="post" id="registerForm">
+
+                    <!-- Placeholder para mostrar errores generales devueltos por el servidor -->
+                    <div id="form-error-summary" class="alert alert-danger mb-3" role="alert"></div>
+
+                    <div class="row g-3 mb-3">
+                        <!-- Agrupa Cédula y Nombre -->
+                        <div class="col-md-6">
+                            <label for="cedula" class="form-label">Cédula</label>
+                            <!-- 'name' es como el servidor identificará este campo -->
+                            <input type="text" id="cedula" name="cedula" class="form-control" placeholder="Cédula" required>
+                            <span class="error-message" id="cedula-error"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="nombre" class="form-label">Nombre Completo</label>
+                            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre Completo" required>
+                            <span class="error-message" id="nombre-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <!-- Agrupa Teléfono y Email -->
+                        <div class="col-md-6">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="tel" id="telefono" name="telefono" class="form-control" placeholder="Teléfono" required>
+                            <span class="error-message" id="telefono-error"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="correo@ejemplo.com" required>
+                            <span class="error-message" id="email-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <!-- Campo Dirección -->
+                        <label for="direccion" class="form-label">Dirección</label>
+                        <input type="text" id="direccion" name="direccion" class="form-control" placeholder="Dirección" required>
+                        <span class="error-message" id="direccion-error"></span>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row g-3 mb-3">
+                        <!-- Agrupa Contraseña y Confirmar Contraseña -->
+                        <div class="col-md-6">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
+                            <span class="error-message" id="password-error"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirmar Contraseña" required>
+                            <span class="error-message" id="confirmPassword-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-register">Registrarse</button>
+                    </div>
+
+                </form>
+
+                <div class="text-center mt-4">
+                    <small>
+                        <!-- Cambia href="#" a la URL de tu página de login -->
+                        <a href="/login" class="text-decoration-none" style="color: var(--color-verde-principal);">¿Ya tienes una cuenta? Inicia Sesión</a>
+                    </small>
+                </div>
+
+            </div> <!-- Fin card-body -->
+        </div> <!-- Fin register-card -->
+    </main> <!-- Fin register-main-container -->
+    <!-- Bootstrap JS Bundle (incluye Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Opcional: Añade aquí tu script JS para validación del lado del cliente si lo necesitas -->
+    <script>
+        // Ejemplo básico de cómo podrías manejar la validación de contraseña de confirmación
+        // (una validación más robusta requeriría más código o una librería)
+        // const form = document.getElementById('registerForm');
+        // const password = document.getElementById('password');
+        // const confirmPassword = document.getElementById('confirmPassword');
+        // const confirmPasswordError = document.getElementById('confirmPassword-error');
+
+        // form.addEventListener('submit', function(event) {
+        //     if (password.value !== confirmPassword.value) {
+        //         confirmPasswordError.textContent = 'Las contraseñas no coinciden.';
+        //         confirmPasswordError.style.display = 'block';
+        //         confirmPassword.classList.add('is-invalid'); // Estilo de Bootstrap para error
+        //         event.preventDefault(); // Detiene el envío del formulario
+        //     } else {
+        //         confirmPasswordError.style.display = 'none';
+        //         confirmPassword.classList.remove('is-invalid');
+        //     }
+        // });
+    </script>
+
+</body>
+</html>

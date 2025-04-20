@@ -1,0 +1,35 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="Huellitas.Forms.Site" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head runat="server">
+    <meta charset="UTF-8" />
+    <title>Huellitas</title>
+    <link href="\Content\Styles.css" rel="stylesheet"/>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="contenedor">
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                <div class="icono-usuario">👤</div>
+                <ul class="menu">
+                    <li><asp:HyperLink runat="server" NavigateUrl="FormAgendarCita.aspx" Text="Agendar citas" /></li>
+                    <li><asp:HyperLink runat="server" NavigateUrl="FormGestionCitas.aspx" Text="Gestión de citas" /></li>
+                    <li><asp:HyperLink runat="server" NavigateUrl="FormMisMascotas.aspx" Text="Mis mascotas" /></li>
+                    <li><asp:HyperLink runat="server" NavigateUrl="FormListadoClientes.aspx" Text="Listado de clientes" /></li>
+                    <li><asp:HyperLink runat="server" NavigateUrl="FormGestionMedicamentos.aspx" Text="Gestión de medicamentos" /></li>
+                    <li><asp:HyperLink runat="server" NavigateUrl="FormFacturacion.aspx" Text="Facturación" /></li>
+                    <li><asp:HyperLink runat="server" NavigateUrl="FormHistorialClinico.aspx" Text="Historial Clínico" /></li>
+                </ul>
+                <asp:Button ID="btnSalir" runat="server" Text="SALIR" CssClass="btn-salir" OnClick="btnSalir_Click" />
+            </nav>
+
+            <!-- Contenido dinámico -->
+            <main class="contenido">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+            </main>
+        </div>
+    </form>
+</body>
+</html>

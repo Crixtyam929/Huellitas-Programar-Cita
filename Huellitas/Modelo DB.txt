@@ -1,0 +1,318 @@
+﻿-- =======================================================================
+-- Script para Crear la Base de Datos de la Veterinaria (v3)
+-- Incluye:
+-- - Eliminación de tablas existentes antes de la creación.
+-- - Creación de tablas normalizadas (3NF ajustada según requisitos).
+-- - Credenciales hasheadas para Usuario y Empleado.
+-- - Gestión de inventario simplificada (por tipo de medicamento).
+-- - Facturación con método de pago único.
+-- - Uso de sintaxis SQL Server y separador GO.
+-- =======================================================================
+
+-- SECCIÓN 1: ELIMINACIÓN DE TABLAS EXISTENTES (en orden inverso de dependencia)
+-- -----------------------------------------------------------------------
+CREATE DATABASE DBHuellitas
+GO
+USE DBHuellitas
+GO
+
+PRINT '>>> Eliminando tablas existentes (si existen)...'
+
+IF OBJECT_ID('dbo.FacturaDetalle', 'U') IS NOT NULL DROP TABLE dbo.FacturaDetalle;
+GO
+IF OBJECT_ID('dbo.Vacunacion', 'U') IS NOT NULL DROP TABLE dbo.Vacunacion;
+GO
+IF OBJECT_ID('dbo.Inventario', 'U') IS NOT NULL DROP TABLE dbo.Inventario;
+GO
+IF OBJECT_ID('dbo.HistorialCambios', 'U') IS NOT NULL DROP TABLE dbo.HistorialCambios;
+GO
+IF OBJECT_ID('dbo.Factura', 'U') IS NOT NULL DROP TABLE dbo.Factura;
+GO
+IF OBJECT_ID('dbo.Cita', 'U') IS NOT NULL DROP TABLE dbo.Cita;
+GO
+IF OBJECT_ID('dbo.Mascota', 'U') IS NOT NULL DROP TABLE dbo.Mascota;
+GO
+IF OBJECT_ID('dbo.Empleado', 'U') IS NOT NULL DROP TABLE dbo.Empleado;
+GO
+IF OBJECT_ID('dbo.Usuario', 'U') IS NOT NULL DROP TABLE dbo.Usuario;
+GO
+IF OBJECT_ID('dbo.Raza', 'U') IS NOT NULL DROP TABLE dbo.Raza;
+GO
+IF OBJECT_ID('dbo.Especie', 'U') IS NOT NULL DROP TABLE dbo.Especie;
+GO
+IF OBJECT_ID('dbo.MetodoPago', 'U') IS NOT NULL DROP TABLE dbo.MetodoPago;
+GO
+IF OBJECT_ID('dbo.Medicamento', 'U') IS NOT NULL DROP TABLE dbo.Medicamento;
+GO
+IF OBJECT_ID('dbo.Veterinaria', 'U') IS NOT NULL DROP TABLE dbo.Veterinaria;
+GO
+IF OBJECT_ID('dbo.Rol', 'U') IS NOT NULL DROP TABLE dbo.Rol;
+GO
+IF OBJECT_ID('dbo.EnfermedadPrevia', 'U') IS NOT NULL DROP TABLE dbo.EnfermedadPrevia;
+GO
+IF OBJECT_ID('dbo.Operacion', 'U') IS NOT NULL DROP TABLE dbo.Operacion;
+GO
+IF OBJECT_ID('dbo.HistorialMedico', 'U') IS NOT NULL DROP TABLE dbo.HistorialMedico;
+GO
+
+PRINT '>>> Tablas existentes eliminadas.'
+PRINT '>>> Creando nuevas tablas...'
+
+-- =======================================================================
+-- SECCIÓN 2: CREACIÓN DE TABLAS
+-- =======================================================================
+
+-- ***** TABLAS DE CONFIGURACIÓN Y CATÁLOGOS *****
+
+-- 1. Rol: Define los roles dentro del sistema (Administrador, Veterinario, Recepcionista, etc.)
+PRINT 'Creando tabla Rol...'
+CREATE TABLE Rol (
+    IdRol INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL UNIQUE,
+    Descripcion VARCHAR(MAX) NULL
+);
+GO
+
+-- 2. Especie: Catálogo de especies de mascotas
+PRINT 'Creando tabla Especie...'
+CREATE TABLE Especie (
+    IdEspecie INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL UNIQUE
+);
+GO
+
+-- 3. Raza: Catálogo de razas, vinculadas a una especie
+PRINT 'Creando tabla Raza...'
+CREATE TABLE Raza (
+    IdRaza INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    IdEspecie INT NOT NULL,
+    FOREIGN KEY (IdEspecie) REFERENCES Especie(IdEspecie),
+    UNIQUE (Nombre, IdEspecie)
+);
+GO
+
+-- 4. MetodoPago: Opciones de pago disponibles
+PRINT 'Creando tabla MetodoPago...'
+CREATE TABLE MetodoPago (
+    IdMetodoPago INT IDENTITY(1,1) PRIMARY KEY,
+    Tipo VARCHAR(50) NOT NULL UNIQUE, -- Ej: Efectivo, Tarjeta Crédito, Transferencia
+    Detalle VARCHAR(MAX) NULL
+);
+GO
+
+-- 5. Medicamento: Catálogo de tipos de medicamentos
+PRINT 'Creando tabla Medicamento...'
+CREATE TABLE Medicamento (
+    IdMedicamento INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL UNIQUE,
+    Descripcion VARCHAR(MAX) NULL,
+    Cantidad INT NOT NULL,   -- Umbral para alerta de stock bajo (opcional)
+	FechaVencimiento DATE NOT NULL,
+	Proveedor  VARCHAR(100) NOT NULL,
+	Activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- 6. Veterinaria: Información de la(s) clínica(s)
+PRINT 'Creando tabla Veterinaria...'
+CREATE TABLE Veterinaria (
+    IdVeterinaria INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    Direccion VARCHAR(250) NULL,
+    Telefono VARCHAR(30) NULL
+);
+GO
+
+-- ***** TABLAS PRINCIPALES *****
+
+-- 7. Usuario: Clientes/Dueños de mascotas
+PRINT 'Creando tabla Usuario...'
+CREATE TABLE Usuario (
+    Cedula VARCHAR(20) PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    Telefono VARCHAR(30) NULL,
+    Direccion VARCHAR(250) NULL,
+    Email VARCHAR(100) UNIQUE,
+    PasswordHash VARBINARY(MAX) NULL,
+    PasswordSalt VARBINARY(MAX) NULL,
+    FechaRegistro DATETIME2 DEFAULT GETDATE()
+);
+GO
+
+-- 8. Empleado: Personal de la veterinaria
+PRINT 'Creando tabla Empleado...'
+CREATE TABLE Empleado (
+    IdEmpleado VARCHAR(20) PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    Telefono VARCHAR(30) NULL,
+    Direccion VARCHAR(250) NULL,
+    Email VARCHAR(100) UNIQUE,
+    Activo BIT NOT NULL DEFAULT 1,
+    IdRol INT NOT NULL,
+    IdVeterinaria INT NULL,
+    PasswordHash VARBINARY(MAX) NOT NULL,
+    PasswordSalt VARBINARY(MAX) NOT NULL,
+    FechaContratacion DATE NULL,
+    FOREIGN KEY (IdRol) REFERENCES Rol(IdRol),
+    FOREIGN KEY (IdVeterinaria) REFERENCES Veterinaria(IdVeterinaria)
+);
+GO
+
+-- 9. Mascota: Información de las mascotas
+PRINT 'Creando tabla Mascota...'
+CREATE TABLE Mascota (
+    IdMascota INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    IdRaza INT NOT NULL,
+    Sexo VARCHAR(10) NULL CHECK (Sexo IN ('Macho', 'Hembra', 'Desconocido')),
+    Color VARCHAR(50) NULL,
+    FechaNacimiento DATE NULL,
+    Microchip VARCHAR(50) UNIQUE NULL,
+    Notas VARCHAR(MAX) NULL,
+    UsuarioCedula VARCHAR(20) NOT NULL,
+    Activa BIT NOT NULL DEFAULT 1,
+    FOREIGN KEY (IdRaza) REFERENCES Raza(IdRaza),
+    FOREIGN KEY (UsuarioCedula) REFERENCES Usuario(Cedula)
+);
+GO
+
+-- 10. Inventario: Stock disponible por tipo de medicamento en una veterinaria
+PRINT 'Creando tabla Inventario...'
+CREATE TABLE Inventario (
+    IdInventario INT IDENTITY(1,1) PRIMARY KEY,
+    IdMedicamento INT NOT NULL,
+    IdVeterinaria INT NOT NULL,
+    CantidadDisponible INT NOT NULL CHECK (CantidadDisponible >= 0),
+    Ubicacion VARCHAR(100) NULL,
+    FechaUltimaActualizacion DATETIME2 DEFAULT GETDATE(),
+    FOREIGN KEY (IdMedicamento) REFERENCES Medicamento(IdMedicamento),
+    FOREIGN KEY (IdVeterinaria) REFERENCES Veterinaria(IdVeterinaria),
+    UNIQUE (IdMedicamento, IdVeterinaria)
+);
+GO
+
+-- 11. Cita: Programación y registro de visitas veterinarias
+PRINT 'Creando tabla Cita...'
+CREATE TABLE Cita (
+    IdCita INT IDENTITY(1,1) PRIMARY KEY,
+    FechaHora DATETIME2 NOT NULL,
+    Tipo VARCHAR(50) NULL,
+    IdVeterinaria INT NOT NULL,
+    IdMascota INT NOT NULL,
+    IdEmpleadoVet VARCHAR(20) NULL,
+    MotivoConsulta VARCHAR(MAX) NULL,
+    Estado VARCHAR(50) NOT NULL DEFAULT 'Programada' CHECK (Estado IN ('Programada', 'Confirmada', 'Cancelada', 'Completada', 'No Asistió')),
+    PesoKg DECIMAL(6, 2) NULL,
+    TemperaturaC DECIMAL(4, 1) NULL,
+    Diagnostico VARCHAR(MAX) NULL,
+    TratamientoRecomendado VARCHAR(MAX) NULL,
+    NotasAdicionales VARCHAR(MAX) NULL,
+    ProximaCitaFecha DATE NULL,
+    FOREIGN KEY (IdVeterinaria) REFERENCES Veterinaria(IdVeterinaria),
+    FOREIGN KEY (IdMascota) REFERENCES Mascota(IdMascota),
+    FOREIGN KEY (IdEmpleadoVet) REFERENCES Empleado(IdEmpleado)
+);
+GO
+
+-- 12. Vacunacion: Registro específico de vacunas aplicadas
+PRINT 'Creando tabla Vacunacion...'
+CREATE TABLE Vacunacion (
+    IdVacunacion INT IDENTITY(1,1) PRIMARY KEY,
+    IdCita INT NOT NULL,
+    IdMedicamento INT NOT NULL,
+    FechaAplicacion DATETIME2 DEFAULT GETDATE(),
+    ProximaDosisRecomendada DATE NULL,
+    Notas VARCHAR(MAX) NULL,
+    FOREIGN KEY (IdCita) REFERENCES Cita(IdCita),
+    FOREIGN KEY (IdMedicamento) REFERENCES Medicamento(IdMedicamento)
+);
+GO
+
+-- 13. Factura: Encabezado de la factura (con pago único)
+PRINT 'Creando tabla Factura...'
+CREATE TABLE Factura (
+    IdFactura INT IDENTITY(1,1) PRIMARY KEY,
+    NumeroFactura VARCHAR(50) UNIQUE,
+    FechaEmision DATETIME2 NOT NULL DEFAULT GETDATE(),
+    Total DECIMAL(18, 2) NOT NULL DEFAULT 0,
+    CedulaUsuario VARCHAR(20) NOT NULL,
+    IdEmpleadoCaja VARCHAR(20) NULL,
+    IdCita INT NULL,
+    Estado VARCHAR(30) DEFAULT 'Pendiente' CHECK (Estado IN ('Pendiente', 'Pagada', 'Anulada')),
+    Notas VARCHAR(MAX) NULL,
+    IdMetodoPago INT NULL,
+    FechaPago DATETIME2 NULL,
+    ReferenciaPago VARCHAR(100) NULL,
+    FOREIGN KEY (CedulaUsuario) REFERENCES Usuario(Cedula),
+    FOREIGN KEY (IdEmpleadoCaja) REFERENCES Empleado(IdEmpleado),
+    FOREIGN KEY (IdCita) REFERENCES Cita(IdCita),
+    FOREIGN KEY (IdMetodoPago) REFERENCES MetodoPago(IdMetodoPago)
+);
+GO
+
+-- 14. FacturaDetalle: Líneas de ítems (solo medicamentos) de una factura
+PRINT 'Creando tabla FacturaDetalle...'
+CREATE TABLE FacturaDetalle (
+    IdFacturaDetalle INT IDENTITY(1,1) PRIMARY KEY,
+    IdFactura INT NOT NULL,
+    IdMedicamento INT NOT NULL,
+    DescripcionItem VARCHAR(200) NOT NULL,
+    Cantidad DECIMAL(10, 2) NOT NULL,
+    PrecioUnitario DECIMAL(18, 2) NOT NULL,
+    Subtotal DECIMAL(18, 2) NOT NULL, -- Calculado: Cantidad * PrecioUnitario
+    FOREIGN KEY (IdFactura) REFERENCES Factura(IdFactura) ON DELETE CASCADE,
+    FOREIGN KEY (IdMedicamento) REFERENCES Medicamento(IdMedicamento)
+);
+GO
+
+-- 15. HistorialCambios: Registro de auditoría general (opcional)
+PRINT 'Creando tabla HistorialCambios...'
+CREATE TABLE HistorialCambios (
+    IdCambio INT IDENTITY(1,1) PRIMARY KEY,
+    FechaHoraCambio DATETIME2 NOT NULL DEFAULT GETDATE(),
+    IdEmpleadoResponsable VARCHAR(20) NULL,
+    TablaAfectada VARCHAR(100) NULL,
+    RegistroAfectadoID VARCHAR(100) NULL,
+    DetalleCambio VARCHAR(MAX) NOT NULL,
+    FOREIGN KEY (IdEmpleadoResponsable) REFERENCES Empleado(IdEmpleado)
+);
+GO
+
+-- 16. EnfermedadPrevia: 
+CREATE TABLE EnfermedadPrevia (
+    IdEnfermedad INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    Descripcion VARCHAR(MAX) NULL,
+    FechaDiagnostico DATE NOT NULL,
+	Observaciones VARCHAR(MAX) NULL
+);
+
+-- 17.Operacion: 
+CREATE TABLE Operacion (
+    Id INT PRIMARY KEY IDENTITY(1,1),  -- Identificador único para cada operación
+    NombreOperacion VARCHAR(100) NOT NULL,  -- Nombre o descripción de la operación
+    FechaOperacion DATETIME DEFAULT GETDATE(),  -- Fecha y hora de la operación
+);
+
+-- 18. HistorialMedico: 
+PRINT 'Creando tabla HistorialMedico...'
+CREATE TABLE HistorialMedico (
+    IdCambio INT IDENTITY(1,1) PRIMARY KEY,
+	IdMascota INT NOT NULL,
+    IdEnfermedadPrevia INT NOT NULL,
+    IdOperacion INT  NULL,
+	IdVacunacion INT  NULL,
+	TratamientoRecomendado VARCHAR(MAX) NULL,
+	Notas VARCHAR(MAX) NULL,
+	FOREIGN KEY (IdMascota) REFERENCES Mascota(IdMascota),
+	FOREIGN KEY (IdEnfermedadPrevia) REFERENCES EnfermedadPrevia(IdEnfermedad),
+	FOREIGN KEY (IdOperacion) REFERENCES Operacion(Id),
+	FOREIGN KEY (IdVacunacion) REFERENCES Vacunacion(IdVacunacion)
+);
+GO
+
+PRINT '>>> Creación de tablas completada.'
+-- =======================================================================
+-- FIN DEL SCRIPT
+-- =======================================================================  

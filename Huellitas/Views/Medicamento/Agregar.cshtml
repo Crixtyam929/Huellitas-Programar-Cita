@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Huellitas</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        .navbar-custom {
+            background-color: #FFCCBC;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        body {
+            background-color: #FFEDE0; /* Color rosado claro */
+        }
+
+        .encabezado-medicamento {
+            background-color: #FFCCBC;
+            color: white;
+        }
+        .espacio-arriba {
+            margin-top: 150px !important;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Barra de Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-custom navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand me-4 text-dark" href="#">🐾 Huellitas</a>
+
+            <div class="collapse navbar-collapse" id="navbarNavHuellitas">
+                <ul class="navbar-nav d-flex flex-row gap-3">
+                    <li class="nav-item"><a class="nav-link text-black" href="#">Agendar Citas</a></li>
+                    <li class="nav-item"><a class="nav-link text-black" href="#">Gestionar Citas</a></li>
+                    <li class="nav-item"><a class="nav-link text-black" href="#">Mascotas</a></li>
+                    <li class="nav-item"><a class="nav-link text-black" href="#">Listado Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link text-black" href="#">Listado Mascotas</a></li>
+                    <li class="nav-item"><a class="nav-link text-black" href="#">Gestión de medicamentos</a></li>
+                    <li class="nav-item"><a class="nav-link text-black" href="#">Facturación</a></li>
+                    <li class="nav-item"><a class="nav-link text-black" href="#">Historial clínico</a></li>
+                </ul>
+            </div>
+
+            <!-- Ícono de usuario a la derecha -->
+            <div class="d-flex align-items-center ms-auto">
+                <a href="#" class="text-dark text-decoration-none">
+                    <i class="bi bi-person-circle fs-1"></i>
+                </a>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavHuellitas">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+
+    <!-- Contenedor Principal -->
+    <main class="container my-5 espacio-arriba">
+        <div class="card mx-auto" style="max-width: 550px; background-color: white;">
+            <div class="card-header text-center encabezado-medicamento">
+                <h2>Añadir nuevo Medicamento</h2>
+            </div>
+            <div class="card-body">
+                <form action="/" method="post" id="registarMedicamento">
+                    <div id="form-error-summary" class="alert alert-danger mb-3" role="alert" style="display:none;"></div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre Medicamento" required>
+                            <span class="text-danger small d-none" id="nombre-error"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="proveedor" class="form-label">Proveedor</label>
+                            <input type="text" id="proveedor" name="proveedor" class="form-control" placeholder="Nombre Proveedor" required>
+                            <span class="text-danger small d-none" id="proveedor-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="fecha" class="form-label">Fecha</label>
+                            <input type="date" id="fecha" name="fecha" class="form-control" required>
+                            <span class="text-danger small d-none" id="fecha-error"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cantidad" class="form-label">Cantidad</label>
+                            <input type="number" id="cantidad" name="cantidad" class="form-control" min="0" placeholder="Cantidad Medicamento" required>
+                            <span class="text-danger small d-none" id="cantidad-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea id="comentario" name="comentario" class="form-control" placeholder="Unidad de medida del medicamento" rows="4" required></textarea>
+                        <span class="text-danger small d-none" id="comentario-error"></span>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn px-4" style="background-color: #FFCCBC; color: white;">Añadir</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

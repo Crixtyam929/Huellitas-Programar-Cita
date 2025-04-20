@@ -1,0 +1,376 @@
+﻿-- =======================================================================
+-- Script para Poblar la Base de Datos de la Veterinaria (DBHuellitas) - CORREGIDO
+-- Datos realistas basados en Medellín, Antioquia, Colombia.
+-- =======================================================================
+
+USE DBHuellitas
+GO
+
+PRINT '>>> Iniciando la inserción de datos realistas...'
+
+-- ***** SECCIÓN 1: POBLANDO TABLAS DE CATÁLOGOS *****
+
+-- 1. Rol
+PRINT 'Poblando tabla Rol...'
+INSERT INTO Rol (Nombre, Descripcion) VALUES
+('Administrador', 'Acceso total al sistema, gestión de usuarios y configuraciones.'),
+('Veterinario', 'Responsable de consultas médicas, diagnósticos y tratamientos.'),
+('Auxiliar Veterinario', 'Asiste al veterinario en procedimientos, cuidado de animales hospitalizados.'),
+('Recepcionista', 'Gestión de citas, atención al cliente, facturación y caja.');
+GO
+
+-- 2. Especie
+PRINT 'Poblando tabla Especie...'
+INSERT INTO Especie (Nombre) VALUES
+('Perro'),
+('Gato'),
+('Hámster'),
+('Conejo'),
+('Ave'); -- Ejemplo de otras especies comunes
+GO
+
+-- 3. Raza (Ejemplos para Perro y Gato)
+PRINT 'Poblando tabla Raza...'
+-- Perros (IdEspecie = 1)
+INSERT INTO Raza (Nombre, IdEspecie) VALUES
+('Criollo', 1), ('Mestizo', 1), ('Labrador Retriever', 1), ('Golden Retriever', 1), ('Pastor Alemán', 1),
+('Bulldog Francés', 1), ('Bulldog Inglés', 1), ('Beagle', 1), ('Poodle (Caniche)', 1), ('Schnauzer', 1),
+('Yorkshire Terrier', 1), ('Shih Tzu', 1), ('Pincher Miniatura', 1), ('Husky Siberiano', 1), ('Border Collie', 1);
+-- Gatos (IdEspecie = 2)
+INSERT INTO Raza (Nombre, IdEspecie) VALUES
+('Criollo', 2), ('Mestizo', 2), ('Siamés', 2), ('Persa', 2), ('Angora Turco', 2),
+('Azul Ruso', 2), ('Ragdoll', 2), ('Maine Coon', 2);
+-- Hámsters (IdEspecie = 3)
+INSERT INTO Raza (Nombre, IdEspecie) VALUES
+('Sirio (Dorado)', 3), ('Ruso Campbell', 3), ('Roborovski', 3);
+-- Conejos (IdEspecie = 4)
+INSERT INTO Raza (Nombre, IdEspecie) VALUES
+('Belier', 4), ('Cabeza de León', 4), ('Rex', 4);
+-- Aves (IdEspecie = 5)
+INSERT INTO Raza (Nombre, IdEspecie) VALUES
+('Periquito Australiano', 5), ('Canario', 5), ('Agapornis', 5);
+GO
+
+-- 4. MetodoPago
+PRINT 'Poblando tabla MetodoPago...'
+INSERT INTO MetodoPago (Tipo, Detalle) VALUES
+('Efectivo', 'Pago en billetes y monedas COP.'),
+('Tarjeta Débito', 'Maestro, Visa Débito.'),
+('Tarjeta Crédito', 'Visa, MasterCard, American Express.'),
+('Transferencia Bancolombia', 'Transferencia electrónica directa a cuenta Bancolombia.'),
+('Nequi', 'Pago a través de la aplicación Nequi.'),
+('Daviplata', 'Pago a través de la aplicación Daviplata.');
+GO
+
+-- 5. Medicamento (Tipos generales y vacunas comunes)
+PRINT 'Poblando tabla Medicamento...'
+INSERT INTO Medicamento (Nombre, Descripcion, UnidadMedida, CantidadMinima) VALUES
+('Consulta General', 'Valoración clínica inicial o de control', 'Servicio', NULL),
+('Consulta Especializada', 'Valoración por especialista (ej: dermatólogo, cardiólogo)', 'Servicio', NULL),
+('Vacuna Múltiple Canina (Puppy DP)', 'Parvovirus, Distemper. Para cachorros.', 'Dosis', 10),
+('Vacuna Múltiple Canina (Quíntuple)', 'Distemper, Hepatitis, Adenovirus, Parainfluenza, Parvovirus.', 'Dosis', 20),
+('Vacuna Múltiple Canina (Séxtuple)', 'Quíntuple + Leptospira.', 'Dosis', 20),
+('Vacuna Rabia Canina/Felina', 'Vacuna antirrábica obligatoria.', 'Dosis', 30),
+('Vacuna Triple Felina', 'Panleucopenia, Rinotraqueitis, Calicivirus.', 'Dosis', 15),
+('Vacuna Leucemia Felina', 'Prevención contra el virus de la Leucemia Felina.', 'Dosis', 10),
+('Desparasitante Interno Canino', 'Tabletas para parásitos intestinales en perros.', 'Tableta', 50),
+('Desparasitante Interno Felino', 'Suspensión oral para parásitos intestinales en gatos.', 'ml', 30),
+('Antipulgas/Antigarrapatas Pipeta Perro', 'Aplicación tópica mensual.', 'Pipeta', 40),
+('Antipulgas/Antigarrapatas Pipeta Gato', 'Aplicación tópica mensual.', 'Pipeta', 30),
+('Antibiótico Amoxicilina+Ácido Clavulánico', 'Infecciones bacterianas comunes.', 'Tableta', 50),
+('Antibiótico Doxiciclina', 'Para enfermedades específicas como Ehrlichia.', 'Tableta', 40),
+('Analgésico/Antiinflamatorio Meloxicam', 'Dolor e inflamación.', 'ml', 25),
+('Analgésico Tramadol', 'Control del dolor moderado a severo.', 'Tableta', 30),
+('Suero Fisiológico', 'Solución salina para rehidratación IV o limpieza.', 'Bolsa 500ml', 10),
+('Suero Ringer Lactato', 'Solución electrolítica para rehidratación IV.', 'Bolsa 500ml', 10),
+('Vitamina Complejo B', 'Suplemento vitamínico.', 'ml', 20),
+('Limpiador Ótico', 'Solución para limpieza de oídos.', 'Frasco', 15),
+('Shampoo Medicado Clorhexidina', 'Para problemas de piel (bacterias/hongos).', 'Frasco', 10);
+GO
+
+-- 6. Veterinaria
+PRINT 'Poblando tabla Veterinaria...'
+INSERT INTO Veterinaria (Nombre, Direccion, Telefono) VALUES
+('Clínica Veterinaria Huellitas Felices - Sede Poblado', 'Carrera 43A # 10-15, Medellín, Antioquia', '604 3112233'),
+('Centro Veterinario San Roque - Sede Laureles', 'Circular 74B # 39-20, Medellín, Antioquia', '604 4445566'),
+('Mi Mascota Sana - Sede Envigado', 'Calle 38 Sur # 43-10, Envigado, Antioquia', '604 3367788');
+GO
+
+-- ***** SECCIÓN 2: POBLANDO TABLAS PRINCIPALES *****
+
+-- 7. Usuario (Clientes)
+PRINT 'Poblando tabla Usuario...'
+INSERT INTO Usuario (Cedula, Nombre, Telefono, Direccion, Email, PasswordHash, PasswordSalt, FechaRegistro) VALUES
+('1037654321', 'Ana María Pérez Gómez', '3101234567', 'Calle 50 # 80-30, Barrio Florencia, Medellín', 'ana.perez@email.com', HASHBYTES('SHA2_512', 'claveAna123'), CRYPT_GEN_RANDOM(16), '2023-01-15 10:00:00'),
+('71890123', 'Carlos Alberto Restrepo Vélez', '3009876543', 'Carrera 76 # 32B-11, Apto 501, Belén, Medellín', 'carlos.restrepo@email.com', HASHBYTES('SHA2_512', 'passCarlos*'), CRYPT_GEN_RANDOM(16), '2023-02-20 14:30:00'),
+('1020456789', 'Luisa Fernanda Jiménez Ríos', '3158765432', 'Transversal 39 # 70-05, Laureles, Medellín', 'luisa.jimenez@email.com', HASHBYTES('SHA2_512', 'luisaPass!'), CRYPT_GEN_RANDOM(16), '2023-03-10 09:15:00'),
+('8123456', 'Jorge Ivan Correa López', '3217654321', 'Diagonal 75C # 2A-99, Robledo, Medellín', 'jorge.correa@email.com', HASHBYTES('SHA2_512', 'j0rg32024'), CRYPT_GEN_RANDOM(16), '2023-05-01 11:00:00'),
+('1000123456', 'Sofia Henao Arango', '3182345678', 'Calle 25 Sur # 43A-150, Envigado', 'sofia.henao@email.com', HASHBYTES('SHA2_512', 'sofiA_99'), CRYPT_GEN_RANDOM(16), '2023-07-18 16:45:00'),
+('70100200', 'Andrés Felipe Muñoz Soto', '3113456789', 'Carrera 48 # 12-70, Edificio Astoria, El Poblado, Medellín', 'andres.munoz@email.com', HASHBYTES('SHA2_512', 'AndresM#24'), CRYPT_GEN_RANDOM(16), '2023-09-05 08:30:00');
+GO
+
+-- 8. Empleado
+PRINT 'Poblando tabla Empleado...'
+-- Obtener IDs de Rol (Declarados aquí porque se usan inmediatamente)
+DECLARE @IdRolAdmin INT = (SELECT IdRol FROM Rol WHERE Nombre = 'Administrador');
+DECLARE @IdRolVet INT = (SELECT IdRol FROM Rol WHERE Nombre = 'Veterinario');
+DECLARE @IdRolAux INT = (SELECT IdRol FROM Rol WHERE Nombre = 'Auxiliar Veterinario');
+DECLARE @IdRolRecep INT = (SELECT IdRol FROM Rol WHERE Nombre = 'Recepcionista');
+
+-- Obtener IDs de Veterinaria (Declarados aquí porque se usan inmediatamente)
+DECLARE @IdVetPoblado INT = (SELECT IdVeterinaria FROM Veterinaria WHERE Nombre LIKE '%Poblado%');
+DECLARE @IdVetLaureles INT = (SELECT IdVeterinaria FROM Veterinaria WHERE Nombre LIKE '%Laureles%');
+DECLARE @IdVetEnvigado INT = (SELECT IdVeterinaria FROM Veterinaria WHERE Nombre LIKE '%Envigado%');
+
+INSERT INTO Empleado (IdEmpleado, Nombre, Telefono, Direccion, Email, Activo, IdRol, IdVeterinaria, PasswordHash, PasswordSalt, FechaContratacion) VALUES
+('71123456', 'Dr. Ricardo Mesa Quintero', '3129876543', 'Calle 15 # 40-10, Medellín', 'ricardo.mesa@huellitas.vet', 1, @IdRolVet, @IdVetPoblado, HASHBYTES('SHA2_512', 'ricardoVetPass'), CRYPT_GEN_RANDOM(16), '2022-08-01'),
+('1039876543', 'Dra. Carolina Villegas Osorio', '3161122334', 'Carrera 80 # 45-55, Medellín', 'carolina.villegas@huellitas.vet', 1, @IdRolVet, @IdVetLaureles, HASHBYTES('SHA2_512', 'caroVetPass123'), CRYPT_GEN_RANDOM(16), '2023-01-10'),
+('8765432', 'Juan David Londoño Gil', '3018765432', 'Avenida 33 # 70-21, Medellín', 'juan.londono@huellitas.vet', 1, @IdRolAux, @IdVetPoblado, HASHBYTES('SHA2_512', 'juanAuxPass'), CRYPT_GEN_RANDOM(16), '2023-03-15'),
+('1017100200', 'Mariana Correa Alzate', '3172345678', 'Circular 4 # 70-80, Apto 302, Medellín', 'mariana.correa@huellitas.vet', 1, @IdRolRecep, @IdVetLaureles, HASHBYTES('SHA2_512', 'marianaRecep'), CRYPT_GEN_RANDOM(16), '2023-05-20'),
+('43123456', 'Gloria Patricia Agudelo', '3143456789', 'Calle 35 Sur # 45-11, Envigado', 'gloria.agudelo@huellitas.vet', 1, @IdRolAdmin, @IdVetEnvigado, HASHBYTES('SHA2_512', 'gloriaAdmin#'), CRYPT_GEN_RANDOM(16), '2022-05-01'),
+('1001234567', 'Dr. Mateo Rojas Castaño', '3194567890', 'Carrera 43 # 30-01, Envigado', 'mateo.rojas@huellitas.vet', 1, @IdRolVet, @IdVetEnvigado, HASHBYTES('SHA2_512', 'mateoVet2024'), CRYPT_GEN_RANDOM(16), '2023-11-01'),
+('1036987123', 'Valeria Bedoya Ortiz', '3051239876', 'Calle 10A # 40-50, Apto 1101, Medellín', 'valeria.bedoya@huellitas.vet', 1, @IdRolRecep, @IdVetPoblado, HASHBYTES('SHA2_512', 'valeRecepPob'), CRYPT_GEN_RANDOM(16), '2024-01-15');
+GO -- Fin del lote para Empleado
+
+-- 9. Mascota
+PRINT 'Poblando tabla Mascota...'
+-- Obtener IDs de Raza (Declarados aquí porque se usan inmediatamente)
+DECLARE @IdRazaCriolloPerro INT = (SELECT IdRaza FROM Raza WHERE Nombre = 'Criollo' AND IdEspecie = 1);
+DECLARE @IdRazaLabrador INT = (SELECT IdRaza FROM Raza WHERE Nombre = 'Labrador Retriever' AND IdEspecie = 1);
+DECLARE @IdRazaBulldogF INT = (SELECT IdRaza FROM Raza WHERE Nombre = 'Bulldog Francés' AND IdEspecie = 1);
+DECLARE @IdRazaCriolloGato INT = (SELECT IdRaza FROM Raza WHERE Nombre = 'Criollo' AND IdEspecie = 2);
+DECLARE @IdRazaSiames INT = (SELECT IdRaza FROM Raza WHERE Nombre = 'Siamés' AND IdEspecie = 2);
+DECLARE @IdRazaSchnauzer INT = (SELECT IdRaza FROM Raza WHERE Nombre = 'Schnauzer' AND IdEspecie = 1);
+DECLARE @IdRazaPersa INT = (SELECT IdRaza FROM Raza WHERE Nombre = 'Persa' AND IdEspecie = 2);
+
+INSERT INTO Mascota (Nombre, IdRaza, Sexo, Color, FechaNacimiento, Microchip, Notas, UsuarioCedula, Activa) VALUES
+('Luna', @IdRazaCriolloPerro, 'Hembra', 'Negro con blanco', '2021-05-10', '981000012345678', 'Muy juguetona, adoptada.', '1037654321', 1),
+('Max', @IdRazaLabrador, 'Macho', 'Dorado', '2022-11-01', '981000087654321', 'Alergia leve al pollo.', '71890123', 1),
+('Kira', @IdRazaBulldogF, 'Hembra', 'Vaquita (Blanco y Negro)', '2023-01-20', NULL, 'Ronca mucho.', '1020456789', 1), -- ÚNICO NULL PERMITIDO
+('Simón', @IdRazaCriolloGato, 'Macho', 'Naranja atigrado', '2020-08-15', '981000011223344', 'Esterilizado. Algo tímido con extraños.', '8123456', 1),
+('Nala', @IdRazaSiames, 'Hembra', 'Seal Point', '2022-06-30', '981000099999991', 'Muy vocal.', '1037654321', 1), -- Ana tiene 2 mascotas. Microchip ficticio.
+('Rocky', @IdRazaSchnauzer, 'Macho', 'Sal y Pimienta', '2019-03-12', '981000055667788', 'Operado de cálculos renales en 2022.', '1000123456', 1),
+('Frida', @IdRazaPersa, 'Hembra', 'Blanco', '2023-09-01', '981000099999992', 'Necesita cepillado diario.', '70100200', 1), -- Microchip ficticio.
+('Toby', @IdRazaCriolloPerro, 'Macho', 'Café', '2018-07-22', '981000099999993', 'Sufre de ansiedad por separación.', '71890123', 0); -- Mascota inactiva. Microchip ficticio.
+GO -- Fin del lote para Mascota
+
+-- 10. Inventario
+PRINT 'Poblando tabla Inventario...'
+-- Obtener IDs de Medicamento (Declarados aquí porque se usan inmediatamente)
+DECLARE @IdMedVacQuintuple INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Quíntuple%');
+DECLARE @IdMedVacRabia INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Rabia%');
+DECLARE @IdMedDespCanino INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Desparasitante Interno Canino%');
+DECLARE @IdMedPipetaGato INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Pipeta Gato%');
+DECLARE @IdMedMeloxicam INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Meloxicam%');
+DECLARE @IdMedAmoxiClav INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Amoxicilina%');
+DECLARE @IdMedSueroFis INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Suero Fisiológico%');
+
+-- Obtener IDs de Veterinaria (Declarados aquí porque se usan inmediatamente)
+DECLARE @IdVetPoblado INT = (SELECT IdVeterinaria FROM Veterinaria WHERE Nombre LIKE '%Poblado%');
+DECLARE @IdVetLaureles INT = (SELECT IdVeterinaria FROM Veterinaria WHERE Nombre LIKE '%Laureles%');
+DECLARE @IdVetEnvigado INT = (SELECT IdVeterinaria FROM Veterinaria WHERE Nombre LIKE '%Envigado%');
+
+
+-- Inventario para Sede Poblado (@IdVetPoblado)
+INSERT INTO Inventario (IdMedicamento, IdVeterinaria, CantidadDisponible, Ubicacion, FechaUltimaActualizacion) VALUES
+(@IdMedVacQuintuple, @IdVetPoblado, 50, 'Nevera Vacunas 1', GETDATE()),
+(@IdMedVacRabia, @IdVetPoblado, 80, 'Nevera Vacunas 1', GETDATE()),
+(@IdMedDespCanino, @IdVetPoblado, 150, 'Estante A1', GETDATE()),
+(@IdMedPipetaGato, @IdVetPoblado, 75, 'Estante B2', GETDATE()),
+(@IdMedMeloxicam, @IdVetPoblado, 40, 'Estante Controlados C1', GETDATE()),
+(@IdMedAmoxiClav, @IdVetPoblado, 100, 'Estante A2', GETDATE()),
+(@IdMedSueroFis, @IdVetPoblado, 25, 'Bodega Principal', GETDATE());
+
+-- Inventario para Sede Laureles (@IdVetLaureles)
+INSERT INTO Inventario (IdMedicamento, IdVeterinaria, CantidadDisponible, Ubicacion, FechaUltimaActualizacion) VALUES
+(@IdMedVacQuintuple, @IdVetLaureles, 45, 'Refrigerador Principal', GETDATE()),
+(@IdMedVacRabia, @IdVetLaureles, 70, 'Refrigerador Principal', GETDATE()),
+(@IdMedDespCanino, @IdVetLaureles, 120, 'Armario Farmacia 1', GETDATE()),
+(@IdMedPipetaGato, @IdVetLaureles, 60, 'Armario Farmacia 2', GETDATE());
+-- Añadir otros medicamentos si se desea
+
+-- Inventario para Sede Envigado (@IdVetEnvigado)
+INSERT INTO Inventario (IdMedicamento, IdVeterinaria, CantidadDisponible, Ubicacion, FechaUltimaActualizacion) VALUES
+(@IdMedVacQuintuple, @IdVetEnvigado, 60, 'Nevera A', GETDATE()),
+(@IdMedVacRabia, @IdVetEnvigado, 90, 'Nevera A', GETDATE()),
+(@IdMedAmoxiClav, @IdVetEnvigado, 110, 'Estantería Izquierda', GETDATE()),
+(@IdMedSueroFis, @IdVetEnvigado, 30, 'Almacén', GETDATE());
+GO -- Fin del lote para Inventario
+
+
+-- ***** SECCIÓN 3: POBLANDO TABLAS TRANSACCIONALES *****
+
+-- Inicio del Lote Transaccional (Cita, Vacunacion, Factura, FacturaDetalle)
+
+-- 11. Cita
+PRINT 'Poblando tabla Cita...'
+-- Obtener IDs necesarios (Declarados al inicio de este lote)
+DECLARE @IdVetRicardo VARCHAR(20) = (SELECT IdEmpleado FROM Empleado WHERE Nombre LIKE 'Dr. Ricardo Mesa%');
+DECLARE @IdVetCarolina VARCHAR(20) = (SELECT IdEmpleado FROM Empleado WHERE Nombre LIKE 'Dra. Carolina Villegas%');
+DECLARE @IdVetMateo VARCHAR(20) = (SELECT IdEmpleado FROM Empleado WHERE Nombre LIKE 'Dr. Mateo Rojas%');
+
+DECLARE @IdMascotaLuna INT = (SELECT IdMascota FROM Mascota WHERE Nombre = 'Luna');
+DECLARE @IdMascotaMax INT = (SELECT IdMascota FROM Mascota WHERE Nombre = 'Max');
+DECLARE @IdMascotaKira INT = (SELECT IdMascota FROM Mascota WHERE Nombre = 'Kira');
+DECLARE @IdMascotaSimon INT = (SELECT IdMascota FROM Mascota WHERE Nombre = 'Simón');
+DECLARE @IdMascotaNala INT = (SELECT IdMascota FROM Mascota WHERE Nombre = 'Nala');
+DECLARE @IdMascotaRocky INT = (SELECT IdMascota FROM Mascota WHERE Nombre = 'Rocky');
+DECLARE @IdMascotaFrida INT = (SELECT IdMascota FROM Mascota WHERE Nombre = 'Frida');
+
+-- Variables para IDs de Veterinaria (re-declaradas por si acaso, aunque podrían venir del lote anterior si no hubiera GO)
+DECLARE @IdVetPoblado INT = (SELECT IdVeterinaria FROM Veterinaria WHERE Nombre LIKE '%Poblado%');
+DECLARE @IdVetLaureles INT = (SELECT IdVeterinaria FROM Veterinaria WHERE Nombre LIKE '%Laureles%');
+DECLARE @IdVetEnvigado INT = (SELECT IdVeterinaria FROM Veterinaria WHERE Nombre LIKE '%Envigado%');
+
+
+INSERT INTO Cita (FechaHora, Tipo, IdVeterinaria, IdMascota, IdEmpleadoVet, MotivoConsulta, Estado, PesoKg, TemperaturaC, Diagnostico, TratamientoRecomendado, NotasAdicionales, ProximaCitaFecha) VALUES
+-- Cita 1: Vacunación Luna (Completada)
+('2024-03-10 09:00:00', 'Vacunación', @IdVetPoblado, @IdMascotaLuna, @IdVetRicardo, 'Refuerzo anual Quíntuple y Rabia', 'Completada', 15.5, 38.5, 'Paciente sano, apto para vacunar.', 'Aplicar vacuna Quíntuple y Rabia. Desparasitar.', 'Se entregó carnet de vacunación actualizado.', '2025-03-10'),
+-- Cita 2: Consulta Max por alergia (Completada)
+('2024-03-15 11:30:00', 'Consulta General', @IdVetLaureles, @IdMascotaMax, @IdVetCarolina, 'Presenta rascado excesivo y enrojecimiento en piel.', 'Completada', 32.0, 38.8, 'Dermatitis alérgica (sospecha alimentaria)', 'Cambio a dieta hipoalergénica. Antihistamínico por 7 días. Baño con shampoo medicado.', 'Revisar evolución en 15 días.', '2024-03-30'),
+-- Cita 3: Control Simón (Completada)
+('2024-04-01 15:00:00', 'Control', @IdVetLaureles, @IdMascotaSimon, @IdVetCarolina, 'Control post-esterilización.', 'Completada', 5.2, 38.3, 'Cicatrización normal. Sin signos de infección.', 'Continuar con limpieza de herida por 3 días más. Retirar puntos en 7 días.', NULL, '2024-04-08'),
+-- Cita 4: Vacunación Cachorro Kira (Completada)
+('2024-04-05 10:15:00', 'Vacunación', @IdVetPoblado, @IdMascotaKira, @IdVetRicardo, 'Primera vacuna Puppy DP.', 'Completada', 3.1, 39.0, 'Cachorro sano.', 'Aplicar Puppy DP. Próxima dosis en 21 días.', 'Se explicó esquema de vacunación completo.', '2024-04-26'),
+-- Cita 5: Urgencia Rocky (Completada)
+('2024-04-10 18:00:00', 'Urgencia', @IdVetEnvigado, @IdMascotaRocky, @IdVetMateo, 'Vómito persistente y decaimiento.', 'Completada', 10.5, 39.5, 'Gastroenteritis aguda.', 'Fluidoterapia IV (Suero Ringer Lactato). Antiemético. Antibiótico. Dieta blanda.', 'Se hospitaliza por 24h para observación y tratamiento.', NULL),
+-- Cita 6: Consulta Nala (Programada)
+('2024-05-20 14:00:00', 'Consulta General', @IdVetPoblado, @IdMascotaNala, @IdVetRicardo, 'Chequeo general anual.', 'Programada', NULL, NULL, NULL, NULL, NULL, NULL),
+-- Cita 7: Vacunación Frida (Cancelada)
+('2024-05-22 16:30:00', 'Vacunación', @IdVetEnvigado, @IdMascotaFrida, @IdVetMateo, 'Refuerzo Triple Felina.', 'Cancelada', NULL, NULL, NULL, NULL, 'Cliente llamó para cancelar, reprogramará.', NULL);
+
+-- Obtener IDs de Cita recién creados (Necesarios para Vacunacion y Factura)
+DECLARE @IdCitaLunaVac INT = (SELECT IdCita FROM Cita WHERE IdMascota = @IdMascotaLuna AND Tipo = 'Vacunación' AND Estado = 'Completada' AND CONVERT(date, FechaHora) = '2024-03-10');
+DECLARE @IdCitaMaxAlergia INT = (SELECT IdCita FROM Cita WHERE IdMascota = @IdMascotaMax AND Tipo = 'Consulta General' AND Estado = 'Completada' AND CONVERT(date, FechaHora) = '2024-03-15');
+DECLARE @IdCitaSimonControl INT = (SELECT IdCita FROM Cita WHERE IdMascota = @IdMascotaSimon AND Tipo = 'Control' AND Estado = 'Completada' AND CONVERT(date, FechaHora) = '2024-04-01');
+DECLARE @IdCitaKiraVac INT = (SELECT IdCita FROM Cita WHERE IdMascota = @IdMascotaKira AND Tipo = 'Vacunación' AND Estado = 'Completada' AND CONVERT(date, FechaHora) = '2024-04-05');
+DECLARE @IdCitaRockyUrgencia INT = (SELECT IdCita FROM Cita WHERE IdMascota = @IdMascotaRocky AND Tipo = 'Urgencia' AND Estado = 'Completada' AND CONVERT(date, FechaHora) = '2024-04-10');
+
+
+-- 12. Vacunacion (Solo para citas de vacunación completadas)
+PRINT 'Poblando tabla Vacunacion...'
+-- Obtener IDs de Medicamentos (Vacunas) (Re-declarados por si acaso)
+DECLARE @IdVacPuppyDP INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Puppy DP%');
+DECLARE @IdMedVacQuintuple INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Quíntuple%');
+DECLARE @IdMedVacRabia INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Rabia%');
+
+
+INSERT INTO Vacunacion (IdCita, IdMedicamento, FechaAplicacion, ProximaDosisRecomendada, Notas) VALUES
+(@IdCitaLunaVac, @IdMedVacQuintuple, '2024-03-10 09:10:00', '2025-03-10', 'Lote Q-12345'),
+(@IdCitaLunaVac, @IdMedVacRabia, '2024-03-10 09:15:00', '2025-03-10', 'Lote R-67890'),
+(@IdCitaKiraVac, @IdVacPuppyDP, '2024-04-05 10:20:00', '2024-04-26', 'Lote P-DP-11223');
+
+
+-- 13. Factura
+PRINT 'Poblando tabla Factura...'
+-- Obtener IDs de Usuario, Empleado (Caja/Recepcionista) y MetodoPago (Re-declarados por si acaso)
+DECLARE @IdUsuarioAna VARCHAR(20) = '1037654321';
+DECLARE @IdUsuarioCarlos VARCHAR(20) = '71890123';
+DECLARE @IdUsuarioLuisa VARCHAR(20) = '1020456789';
+DECLARE @IdUsuarioJorge VARCHAR(20) = '8123456';
+DECLARE @IdUsuarioSofia VARCHAR(20) = '1000123456';
+
+DECLARE @IdEmpleadoMariana VARCHAR(20) = (SELECT IdEmpleado FROM Empleado WHERE Nombre LIKE 'Mariana Correa%'); -- Recepcionista Laureles
+DECLARE @IdEmpleadoValeria VARCHAR(20) = (SELECT IdEmpleado FROM Empleado WHERE Nombre LIKE 'Valeria Bedoya%'); -- Recepcionista Poblado
+DECLARE @IdEmpleadoGloria VARCHAR(20) = (SELECT IdEmpleado FROM Empleado WHERE Nombre LIKE 'Gloria Patricia%'); -- Admin/Caja Envigado
+
+DECLARE @IdPagoEfectivo INT = (SELECT IdMetodoPago FROM MetodoPago WHERE Tipo = 'Efectivo');
+DECLARE @IdPagoTDebito INT = (SELECT IdMetodoPago FROM MetodoPago WHERE Tipo = 'Tarjeta Débito');
+DECLARE @IdPagoNequi INT = (SELECT IdMetodoPago FROM MetodoPago WHERE Tipo = 'Nequi');
+DECLARE @IdPagoTCredito INT = (SELECT IdMetodoPago FROM MetodoPago WHERE Tipo = 'Tarjeta Crédito');
+DECLARE @IdPagoBancolombia INT = (SELECT IdMetodoPago FROM MetodoPago WHERE Tipo = 'Transferencia Bancolombia');
+
+
+-- Factura 1: Vacunación Luna (Pagada)
+INSERT INTO Factura (NumeroFactura, FechaEmision, Total, CedulaUsuario, IdEmpleadoCaja, IdCita, Estado, Notas, IdMetodoPago, FechaPago, ReferenciaPago)
+VALUES ('FV-2024-0001', '2024-03-10 09:30:00', 0, @IdUsuarioAna, @IdEmpleadoValeria, @IdCitaLunaVac, 'Pagada', 'Pago de vacunación anual Luna', @IdPagoNequi, '2024-03-10 09:35:00', 'Ref Nequi 12345');
+DECLARE @IdFactura1 INT = SCOPE_IDENTITY();
+
+-- Factura 2: Consulta Max + Medicamentos (Pagada)
+INSERT INTO Factura (NumeroFactura, FechaEmision, Total, CedulaUsuario, IdEmpleadoCaja, IdCita, Estado, Notas, IdMetodoPago, FechaPago, ReferenciaPago)
+VALUES ('FL-2024-0001', '2024-03-15 12:00:00', 0, @IdUsuarioCarlos, @IdEmpleadoMariana, @IdCitaMaxAlergia, 'Pagada', 'Consulta y tratamiento dermatitis Max', @IdPagoTDebito, '2024-03-15 12:05:00', 'Autoriz. 98765');
+DECLARE @IdFactura2 INT = SCOPE_IDENTITY();
+
+-- Factura 3: Vacunación Kira (Pagada)
+INSERT INTO Factura (NumeroFactura, FechaEmision, Total, CedulaUsuario, IdEmpleadoCaja, IdCita, Estado, Notas, IdMetodoPago, FechaPago, ReferenciaPago)
+VALUES ('FV-2024-0002', '2024-04-05 10:30:00', 0, @IdUsuarioLuisa, @IdEmpleadoValeria, @IdCitaKiraVac, 'Pagada', 'Pago primera vacuna Kira', @IdPagoEfectivo, '2024-04-05 10:32:00', NULL);
+DECLARE @IdFactura3 INT = SCOPE_IDENTITY();
+
+-- Factura 4: Urgencia + Hospitalización Rocky (Pendiente - pago parcial o total al alta)
+INSERT INTO Factura (NumeroFactura, FechaEmision, Total, CedulaUsuario, IdEmpleadoCaja, IdCita, Estado, Notas, IdMetodoPago, FechaPago, ReferenciaPago)
+VALUES ('FE-2024-0001', '2024-04-11 10:00:00', 0, @IdUsuarioSofia, @IdEmpleadoGloria, @IdCitaRockyUrgencia, 'Pendiente', 'Factura hospitalización Rocky. Pago al alta.', NULL, NULL, NULL);
+DECLARE @IdFactura4 INT = SCOPE_IDENTITY();
+
+-- Factura 5: Venta de antipulgas (Sin Cita asociada - Venta directa)
+INSERT INTO Factura (NumeroFactura, FechaEmision, Total, CedulaUsuario, IdEmpleadoCaja, IdCita, Estado, Notas, IdMetodoPago, FechaPago, ReferenciaPago)
+VALUES ('FV-2024-0003', '2024-04-20 16:00:00', 0, @IdUsuarioAna, @IdEmpleadoValeria, NULL, 'Pagada', 'Venta pipeta antipulgas Gato Nala', @IdPagoTCredito, '2024-04-20 16:05:00', 'Autoriz. 11223');
+DECLARE @IdFactura5 INT = SCOPE_IDENTITY();
+
+
+-- 14. FacturaDetalle
+PRINT 'Poblando tabla FacturaDetalle...'
+-- Obtener IDs de Medicamentos (incluyendo servicios) (Re-declarados por si acaso)
+DECLARE @IdServicioConsulta INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre = 'Consulta General');
+DECLARE @IdServicioUrgencia INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre = 'Consulta Especializada');
+DECLARE @IdMedAmoxiClav INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Amoxicilina%');
+DECLARE @IdMedMeloxicam INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Meloxicam%');
+DECLARE @IdMedSueroFis INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Suero Fisiológico%');
+DECLARE @IdMedSueroRinger INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre = 'Suero Ringer Lactato');
+DECLARE @IdMedAntipulgasGato INT = (SELECT IdMedicamento FROM Medicamento WHERE Nombre LIKE '%Pipeta Gato%');
+-- IDs de Vacunas ya declarados arriba en este lote
+
+-- Precios estimados (COP)
+DECLARE @PrecioConsulta DECIMAL(18, 2) = 70000;
+DECLARE @PrecioUrgencia DECIMAL(18, 2) = 120000;
+DECLARE @PrecioVacQuintuple DECIMAL(18, 2) = 65000;
+DECLARE @PrecioVacRabia DECIMAL(18, 2) = 45000;
+DECLARE @PrecioVacPuppyDP DECIMAL(18, 2) = 60000;
+DECLARE @PrecioAmoxiClavTab DECIMAL(18, 2) = 3500; -- Precio por tableta
+DECLARE @PrecioMeloxicamML DECIMAL(18, 2) = 8000; -- Precio por ml
+DECLARE @PrecioPipetaGato DECIMAL(18, 2) = 35000;
+DECLARE @PrecioSuero500ml DECIMAL(18, 2) = 25000;
+DECLARE @PrecioDiaHosp DECIMAL(18, 2) = 90000;
+
+-- Detalle Factura 1 (Luna)
+INSERT INTO FacturaDetalle (IdFactura, IdMedicamento, DescripcionItem, Cantidad, PrecioUnitario, Subtotal) VALUES
+(@IdFactura1, @IdMedVacQuintuple, 'Vacuna Múltiple Canina (Quíntuple)', 1, @PrecioVacQuintuple, 1 * @PrecioVacQuintuple),
+(@IdFactura1, @IdMedVacRabia, 'Vacuna Rabia Canina/Felina', 1, @PrecioVacRabia, 1 * @PrecioVacRabia);
+UPDATE Factura SET Total = (SELECT SUM(Subtotal) FROM FacturaDetalle WHERE IdFactura = @IdFactura1) WHERE IdFactura = @IdFactura1;
+
+-- Detalle Factura 2 (Max)
+INSERT INTO FacturaDetalle (IdFactura, IdMedicamento, DescripcionItem, Cantidad, PrecioUnitario, Subtotal) VALUES
+(@IdFactura2, @IdServicioConsulta, 'Consulta General', 1, @PrecioConsulta, 1 * @PrecioConsulta),
+(@IdFactura2, @IdMedAmoxiClav, 'Antibiótico Amoxicilina+Ácido Clavulánico (Tableta)', 7, @PrecioAmoxiClavTab, 7 * @PrecioAmoxiClavTab);
+UPDATE Factura SET Total = (SELECT SUM(Subtotal) FROM FacturaDetalle WHERE IdFactura = @IdFactura2) WHERE IdFactura = @IdFactura2;
+
+-- Detalle Factura 3 (Kira)
+INSERT INTO FacturaDetalle (IdFactura, IdMedicamento, DescripcionItem, Cantidad, PrecioUnitario, Subtotal) VALUES
+(@IdFactura3, @IdVacPuppyDP, 'Vacuna Múltiple Canina (Puppy DP)', 1, @PrecioVacPuppyDP, 1 * @PrecioVacPuppyDP);
+UPDATE Factura SET Total = (SELECT SUM(Subtotal) FROM FacturaDetalle WHERE IdFactura = @IdFactura3) WHERE IdFactura = @IdFactura3;
+
+-- Detalle Factura 4 (Rocky - Items iniciales urgencia)
+INSERT INTO FacturaDetalle (IdFactura, IdMedicamento, DescripcionItem, Cantidad, PrecioUnitario, Subtotal) VALUES
+(@IdFactura4, @IdServicioUrgencia, 'Atención Urgencia', 1, @PrecioUrgencia, 1 * @PrecioUrgencia),
+(@IdFactura4, @IdMedSueroRinger, 'Suero Ringer Lactato (Bolsa 500ml)', 1, @PrecioSuero500ml, 1 * @PrecioSuero500ml);
+UPDATE Factura SET Total = (SELECT SUM(Subtotal) FROM FacturaDetalle WHERE IdFactura = @IdFactura4) WHERE IdFactura = @IdFactura4; -- Actualiza con el subtotal actual
+
+-- Detalle Factura 5 (Venta Nala)
+INSERT INTO FacturaDetalle (IdFactura, IdMedicamento, DescripcionItem, Cantidad, PrecioUnitario, Subtotal) VALUES
+(@IdFactura5, @IdMedAntipulgasGato, 'Antipulgas/Antigarrapatas Pipeta Gato', 1, @PrecioPipetaGato, 1 * @PrecioPipetaGato);
+UPDATE Factura SET Total = (SELECT SUM(Subtotal) FROM FacturaDetalle WHERE IdFactura = @IdFactura5) WHERE IdFactura = @IdFactura5;
+
+
+-- 15. HistorialCambios (Ejemplos opcionales)
+PRINT 'Poblando tabla HistorialCambios (opcional)...'
+-- IDs de Empleados ya declarados en este lote
+
+INSERT INTO HistorialCambios (FechaHoraCambio, IdEmpleadoResponsable, TablaAfectada, RegistroAfectadoID, DetalleCambio) VALUES
+(GETDATE(), @IdEmpleadoGloria, 'Empleado', '1017100200', 'Se actualizó el número de teléfono de Mariana Correa.'),
+(GETDATE(), @IdEmpleadoMariana, 'Cita', CAST((SELECT IdCita FROM Cita WHERE IdMascota = @IdMascotaFrida AND Tipo = 'Vacunación' AND Estado = 'Cancelada') AS VARCHAR(20)), 'Se cambió el estado de la cita ID correspondiente a Frida a Cancelada por solicitud del cliente.');
+
+GO -- Fin del Lote Transaccional
+
+PRINT '>>> Inserción de datos completada.'
+-- =======================================================================
+-- FIN DEL SCRIPT DE POBLACIÓN
+-- =======================================================================
