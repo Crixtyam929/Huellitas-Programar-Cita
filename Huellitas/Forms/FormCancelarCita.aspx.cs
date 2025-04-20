@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace Huellitas.Forms
 {
@@ -17,32 +12,53 @@ namespace Huellitas.Forms
             if (!IsPostBack)
             {
                 string id = Request.QueryString["id"];
-                if (string.IsNullOrEmpty(id))
+                if (!string.IsNullOrEmpty(id))
                 {
-                    // Redirigir si no hay ID
-                    Response.Redirect("FormGestionCitas.aspx");
+                    CargarDatosCita(id);
                 }
+            }
+        }
+
+        private void CargarDatosCita(string citaId)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT NombreMascota, Servicio, Fecha, Hora FROM Citas WHERE Id = @Id";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Id", citaId);
+
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    nombreMascota.Text = reader["NombreMascota"].ToString();
+                    servicio.Text = reader["Servicio"].ToString();
+                    fecha.Text = Convert.ToDateTime(reader["Fecha"]).ToString("yyyy-MM-dd");
+                    hora.Text = reader["Hora"].ToString();
+                }
+                conn.Close();
             }
         }
 
         protected void btnCancelarCita_Click(object sender, EventArgs e)
         {
-            string citaId = Request.QueryString["id"];
-            if (!string.IsNullOrEmpty(citaId))
+            string id = Request.QueryString["id"];
+            if (!string.IsNullOrEmpty(id))
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     string query = "DELETE FROM Citas WHERE Id = @Id";
                     SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", citaId);
+                    cmd.Parameters.AddWithValue("@Id", id);
+
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     conn.Close();
                 }
-            }
 
-            // Redirigir al formulario de gestión de citas
-            Response.Redirect("FormGestionCitas.aspx");
+                // Redirige después de eliminar
+                Response.Redirect("FormGestionCitas.aspx");
+            }
         }
     }
 }

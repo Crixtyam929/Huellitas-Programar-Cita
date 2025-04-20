@@ -24,13 +24,13 @@ namespace Huellitas.Forms
         protected global::System.Web.UI.WebControls.Label lblNombreMascota;
 
         /// <summary>
-        /// Control ddlServicio.
+        /// Control ddlServicios.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlServicio;
+        protected global::System.Web.UI.WebControls.DropDownList ddlServicios;
 
         /// <summary>
         /// Control txtFecha.
@@ -51,15 +51,6 @@ namespace Huellitas.Forms
         protected global::System.Web.UI.WebControls.TextBox txtHora;
 
         /// <summary>
-        /// Control hdnIdCita.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnIdCita;
-
-        /// <summary>
         /// Control btnReagendar.
         /// </summary>
         /// <remarks>
@@ -67,14 +58,5 @@ namespace Huellitas.Forms
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnReagendar;
-
-        /// <summary>
-        /// Control lblMensaje.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMensaje;
     }
 }

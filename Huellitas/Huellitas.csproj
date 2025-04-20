@@ -354,6 +354,7 @@
     <Content Include="Forms\FormDefault.aspx" />
     <Content Include="Forms\FormGestionCitas.aspx" />
     <Content Include="Forms\FormReagendarCita.aspx" />
+    <Content Include="Forms\HtmlPage1.html" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Modelo DB.txt" />

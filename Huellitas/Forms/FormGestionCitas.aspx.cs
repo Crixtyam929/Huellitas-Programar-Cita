@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -11,32 +8,31 @@ namespace Huellitas.Forms
 {
     public partial class FormGestionCitas : System.Web.UI.Page
     {
-        // Reemplazar con tu propia cadena de conexión
-        string connectionString = "Data Source=.;Initial Catalog=HuellitasDB;Integrated Security=True";
-
-
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                CargarCitas();
+                CargarCitasDummy();
             }
         }
 
-
-        private void CargarCitas()
+        private void CargarCitasDummy()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query = "SELECT Id, NombreMascota, Servicio, Fecha, Hora, Telefono, Correo FROM Citas";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Id");
+            dt.Columns.Add("NombreMascota");
+            dt.Columns.Add("Servicio");
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Hora");
+            dt.Columns.Add("Telefono");
+            dt.Columns.Add("Email");
 
-                rptCitas.DataSource = dt;
-                rptCitas.DataBind();
-            }
+            dt.Rows.Add("1", "Luna", "Vacunación", "2024-04-20", "10:00", "1234567890", "luna@email.com");
+            dt.Rows.Add("2", "Max", "Grooming", "2024-04-21", "11:30", "9876543210", "max@email.com");
+            dt.Rows.Add("3", "Bobby", "Chequeo", "2024-04-22", "09:45", "5556667777", "bobby@email.com");
+
+            rptCitas.DataSource = dt;
+            rptCitas.DataBind();
         }
 
         protected void btnConfirmar_Click(object sender, EventArgs e)
@@ -44,48 +40,42 @@ namespace Huellitas.Forms
             Button btn = (Button)sender;
             string citaId = btn.CommandArgument;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query = "UPDATE Citas SET Confirmada = 1 WHERE Id = @Id";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Id", citaId);
+            // Aquí podrías mostrar un mensaje o log simulado
+            System.Diagnostics.Debug.WriteLine($"Cita confirmada: {citaId}");
 
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-
-            // Refresca la lista después de confirmar
-            CargarCitas();
+            // Recargar datos simulados
+            CargarCitasDummy();
         }
 
         protected void btnBuscarFecha_Click(object sender, EventArgs e)
         {
             string fechaSeleccionada = txtBuscarFecha.Text;
 
-            if (!string.IsNullOrEmpty(fechaSeleccionada))
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Id");
+            dt.Columns.Add("NombreMascota");
+            dt.Columns.Add("Servicio");
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Hora");
+            dt.Columns.Add("Telefono");
+            dt.Columns.Add("Email");
+
+            // Simula búsqueda por fecha
+            if (fechaSeleccionada == "2024-04-21")
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    string query = "SELECT Id, NombreMascota, Servicio, Fecha, Hora, Telefono, Correo FROM Citas WHERE CONVERT(date, Fecha) = @Fecha";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Fecha", DateTime.Parse(fechaSeleccionada));
-
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    rptCitas.DataSource = dt;
-                    rptCitas.DataBind();
-                }
+                dt.Rows.Add("2", "Max", "Grooming", "2024-04-21", "11:30", "9876543210", "max@email.com");
             }
-            else
+            else if (fechaSeleccionada == "2024-04-20")
             {
-                // Si no hay fecha, recargar todas las citas
-                CargarCitas();
+                dt.Rows.Add("1", "Luna", "Vacunación", "2024-04-20", "10:00", "1234567890", "luna@email.com");
+            }
+            else if (fechaSeleccionada == "2024-04-22")
+            {
+                dt.Rows.Add("3", "Bobby", "Chequeo", "2024-04-22", "09:45", "5556667777", "bobby@email.com");
             }
 
-
+            rptCitas.DataSource = dt;
+            rptCitas.DataBind();
         }
     }
 }
