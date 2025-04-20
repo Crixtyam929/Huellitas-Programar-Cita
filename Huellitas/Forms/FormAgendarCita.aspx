@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="Site.Master" AutoEventWireup="true" CodeBehind="FormAgendarCita.aspx.cs" Inherits="Huellitas.Forms.FormAgendarCita" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <link rel="stylesheet" type="text/css" href="<%: ResolveClientUrl("/Content/FormAgendarCita.css") %>" />
     <div class="contenedor-cita">
         <div class="encabezado-cita">
             <h2>Agendar Cita</h2>

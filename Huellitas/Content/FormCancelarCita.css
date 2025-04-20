@@ -1,0 +1,68 @@
+﻿/* ___CANCELAR CITA___ */
+
+.contenedor-cancelacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.caja-cancelacion {
+    background-color: #f9c5b8;
+    padding: 30px 50px;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 420px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.nombre-mascota {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.pregunta-cancelar {
+    margin: 25px 0;
+    font-size: 18px;
+}
+
+.btn-cancelar {
+    background-color: #2e7d32;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+    .btn-cancelar:hover{
+        background-color: #33691e;
+    }
+
+
+.boton-accion {
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none; /* Quitar el subrayado del enlace */
+    display: inline-block; /* Para que el padding y el ancho funcionen correctamente */
+    text-align: center; /* Centrar el texto dentro del "botón" */
+    background-color: #2e7d32;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.no-cancelar {
+    background-color: #2e7d32; 
+}
+
+    .no-cancelar:hover {
+        background-color: #33691e; /* Verde más claro */
+        text-decoration: none; /* Asegurar que no aparezca al hacer hover */
+    }

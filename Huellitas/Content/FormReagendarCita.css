@@ -1,0 +1,75 @@
+﻿/* Estilos generales del formulario */
+.formulario-reagendar {
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+    .formulario-reagendar h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+/* Estilos para los grupos de formulario (label y control) */
+.form-group {
+    margin-bottom: 15px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .form-group .form-control {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        box-sizing: border-box;
+    }
+
+    /* Estilos específicos para el DropDownList */
+    .form-group select.form-control {
+        appearance: none; /* Elimina los estilos predeterminados del navegador */
+        background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+        background-repeat: no-repeat;
+        background-position-x: 98%;
+        background-position-y: 50%;
+        padding-right: 24px;
+    }
+
+/* Estilos para el botón de reagendar */
+.btn-reagendar {
+    background-color: #5cb85c; /* Verde */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+    .btn-reagendar:hover {
+        background-color: #4cae4c;
+    }
+
+/* Estilos para el mensaje de error o éxito */
+.mensaje {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+    .mensaje.exito {
+        color: green;
+    }
+
+    .mensaje.error {
+        color: red;
+    }

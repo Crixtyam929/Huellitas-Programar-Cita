@@ -1,0 +1,96 @@
+﻿/* ___GESTION CITAS___ */
+
+.contenedor-citas {
+    padding: 2rem;
+}
+
+.header-citas {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.input-fecha {
+    padding: 0.4rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.btn-buscar {
+    background-color: #2E7D32;
+    color: white;
+    padding: 0.4rem 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.cita-card {
+    background-color: #fbc4b6;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.datos-servicio {
+    flex: 2;
+    font-size: 1rem;
+}
+
+.nombre-mascota {
+    flex: 1;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.acciones {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+}
+
+.btn {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-confirmar {
+    background-color: #2e7d32;
+    color: #fff;
+}
+
+.btn-reagendar, .btn-cancelar {
+    background-color: #2e7d32;
+    color: #fff;
+}
+
+.btn:hover {
+    filter: brightness(1.1);
+}
+
+.volver {
+    font-size: 24px;
+    text-decoration: none;
+    color: black;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    float: right; /* Alinea el elemento a la derecha */
+}
+
+    .volver:hover {
+        background-color: #e8b19d;
+    }

@@ -209,6 +209,13 @@
     <Compile Include="Forms\FormAgendarCita.aspx.designer.cs">
       <DependentUpon>FormAgendarCita.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormCancelarCita.aspx.cs">
+      <DependentUpon>FormCancelarCita.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\FormCancelarCita.aspx.designer.cs">
+      <DependentUpon>FormCancelarCita.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormDefault.aspx.cs">
       <DependentUpon>FormDefault.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -222,6 +229,13 @@
     </Compile>
     <Compile Include="Forms\FormGestionCitas.aspx.designer.cs">
       <DependentUpon>FormGestionCitas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormReagendarCita.aspx.cs">
+      <DependentUpon>FormReagendarCita.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\FormReagendarCita.aspx.designer.cs">
+      <DependentUpon>FormReagendarCita.aspx</DependentUpon>
     </Compile>
     <Compile Include="Forms\Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -328,12 +342,18 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\FormAgendarCita.css" />
+    <Content Include="Content\FormCancelarCita.css" />
+    <Content Include="Content\FormGestionCitas.css" />
+    <Content Include="Content\FormReagendarCita.css" />
     <Content Include="Content\Styles.css" />
     <Content Include="Datos basico.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Forms\FormAgendarCita.aspx" />
+    <Content Include="Forms\FormCancelarCita.aspx" />
     <Content Include="Forms\FormDefault.aspx" />
     <Content Include="Forms\FormGestionCitas.aspx" />
+    <Content Include="Forms\FormReagendarCita.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Modelo DB.txt" />
